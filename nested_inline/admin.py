@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.admin import helpers
 from django.contrib.admin.options import InlineModelAdmin, reverse
 from django.contrib.admin.utils import unquote
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import FieldDoesNotExist, PermissionDenied
 from django.db import models, transaction
 from django.forms.formsets import all_valid
 from django.http import Http404
@@ -49,7 +49,10 @@ class NestedModelAdmin(InlineInstancesMixin, admin.ModelAdmin):
         css = {
             "all": ('admin/css/forms-nested.css',)
         }
-        js = ('admin/js/inlines-nested%s.js' % ('' if settings.DEBUG else '.min'),)
+        js = (
+            'admin/js/jquery.init.js',
+            'admin/js/inlines-nested%s.js' % ('' if settings.DEBUG else '.min'),
+        )
 
     def save_formset(self, request, form, formset, change):
         """
@@ -215,7 +218,7 @@ class NestedModelAdmin(InlineInstancesMixin, admin.ModelAdmin):
             for k in initial:
                 try:
                     f = opts.get_field(k)
-                except models.FieldDoesNotExist:
+                except FieldDoesNotExist:
                     continue
                 if isinstance(f, models.ManyToManyField):
                     initial[k] = initial[k].split(",")
