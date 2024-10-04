@@ -50,9 +50,12 @@ class NestedModelAdmin(InlineInstancesMixin, admin.ModelAdmin):
 
     class Media:
         css = {
-            "all": ('admin/css/forms-nested.css',)
+            "all": ('admin/css/forms-nested%s.css' % ('-novars' if VERSION < (3, 2) else ''),)
         }
-        js = ('admin/js/inlines-nested%s.js' % ('' if settings.DEBUG else '.min'),)
+        js = (
+            'admin/js/jquery.init.js',
+            'admin/js/inlines-nested%s.js' % ('' if settings.DEBUG else '.min'),
+        )
 
     def save_formset(self, request, form, formset, change):
         """
