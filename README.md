@@ -127,6 +127,10 @@ twine upload dist/*
 Changelist
 ----------
 
+0.4.7
+
+* Use css variables
+
 0.4.6:
 
 * Support django 4.1
