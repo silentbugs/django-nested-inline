@@ -50,7 +50,7 @@ class NestedModelAdmin(InlineInstancesMixin, admin.ModelAdmin):
 
     class Media:
         css = {
-            "all": ('admin/css/forms-nested.css',)
+            "all": ('admin/css/forms-nested%s.css' % ('-novars' if VERSION < (3, 2) else ''),)
         }
         js = (
             'admin/js/jquery.init.js',
